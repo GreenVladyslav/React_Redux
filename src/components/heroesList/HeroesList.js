@@ -18,7 +18,7 @@ import './heroesList.scss';
 
 const HeroesList = () => {
 
-    const filteredHeroesSelector = createSelector(
+    const filteredHeroesSelector = createSelector( /* При помощи createSelector  у нас будет мимоизирование и не будет переРендеринга */
         (state) => state.filters.activeFilter,
         (state) => state.heroes.heroes,
         (filter, heroes) => {
@@ -39,12 +39,12 @@ const HeroesList = () => {
     //     }
     // })
     const filteredHeroes = useSelector(filteredHeroesSelector);
-    const heroesLoadingStatus = useSelector(state => state.heroesLoadingStatus); /* вытягиваем глобальный стейт чтобы использовать внутри компонента два штуки*/
+    const heroesLoadingStatus = useSelector(state => state.heroes.heroesLoadingStatus); /* вытягиваем глобальный стейт чтобы использовать внутри компонента два штуки*/
     const dispatch = useDispatch(); /* получаем диспетч */
     const {request} = useHttp(); /* функция для запроса */
 
     useEffect(() => {
-        dispatch(heroesFetching());
+        dispatch(heroesFetching()); /* 'HEROES_FETCHING' */
         request("http://localhost:3001/heroes")
             .then(data => dispatch(heroesFetched(data))) /* actions */
             .catch(() => dispatch(heroesFetchingError()))
