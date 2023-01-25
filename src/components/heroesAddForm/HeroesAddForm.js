@@ -23,7 +23,7 @@ const HeroesAddForm = () => {
     const [heroDescr, setHeroDescr] = useState('');
     const [heroElement, setHeroElement] = useState('');
 
-    const {filters, filtersLoadingStatus} = useSelector(state => state);
+    const {filters, filtersLoadingStatus} = useSelector(state => state.filters);
     const dispatch = useDispatch();
     const {request} = useHttp();
 
@@ -38,9 +38,9 @@ const HeroesAddForm = () => {
         }
 
         request("http://localhost:3001/heroes/", "POST", JSON.stringify(newHero))
-            // .then(response, console.log(response, 'Отправка успешна'))
+            .then(res => console.log(res, 'Created'))
             .then(dispatch(heroCreated(newHero)))
-            // .catch(err => console.log(err));
+            .catch(err => console.log(err));
     
         setHeroName('');
         setHeroDescr('');
@@ -51,7 +51,7 @@ const HeroesAddForm = () => {
         if (status === 'loading') {
             return <option>Загрузка элементов</option>
         } else if (status === 'error') {
-            return <option>Ошибка загрузки</option>
+            return  
         }
 
         if (filters && filters.length > 0) {

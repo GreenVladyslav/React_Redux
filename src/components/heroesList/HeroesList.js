@@ -2,6 +2,7 @@ import { useHttp } from '../../hooks/http.hook'; /* чтобы делать за
 import { useEffect } from 'react'; /* чтобы делать запрос в правильное время */
 import { useDispatch, useSelector } from 'react-redux'; /* два хука редакса */
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { createSelector } from 'reselect';
 
 import { heroesFetching, heroesFetched, heroesFetchingError, heroDeleted } from '../../actions'; /* экшины */
 import HeroesListItem from "../heroesListItem/HeroesListItem"; /* наш отдельный конкретный герой */
@@ -16,7 +17,29 @@ import './heroesList.scss';
 // Удаление идет и с json файла при помощи метода DELETE
 
 const HeroesList = () => {
-    const {filteredHeroes, heroesLoadingStatus} = useSelector(state => state); /* вытягиваем глобальный стейт чтобы использовать внутри компонента два штуки*/
+
+    const filteredHeroesSelector = createSelector(
+        (state) => state.filters.activeFilter,
+        (state) => state.heroes.heroes,
+        (filter, heroes) => {
+            if (filter === 'all') {
+                console.log('render');
+                return heroes;
+            } else {
+                return heroes.filter(item => item.element === filter)
+            }
+        }
+    );
+
+    // const filteredHeroes = useSelector(state => {
+    //     if (state.filters.activeFilter === 'all') {
+    //         return state.heroes.heroes;
+    //     } else {
+    //         return state.heroes.heroes.filter(item => item.element === state.filters.activeFilter)
+    //     }
+    // })
+    const filteredHeroes = useSelector(filteredHeroesSelector);
+    const heroesLoadingStatus = useSelector(state => state.heroesLoadingStatus); /* вытягиваем глобальный стейт чтобы использовать внутри компонента два штуки*/
     const dispatch = useDispatch(); /* получаем диспетч */
     const {request} = useHttp(); /* функция для запроса */
 
