@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from 'react-redux'; /* два хука ре�
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { createSelector } from 'reselect';
 
-import { heroesFetching, heroesFetched, heroesFetchingError, heroDeleted } from '../../actions'; /* экшины */
+import { fetchHeroes, heroDeleted } from '../../actions'; /* экшины */
+// import { heroesFetching, heroesFetched, heroesFetchingError, heroDeleted } from '../../actions'; /* экшины */
 import HeroesListItem from "../heroesListItem/HeroesListItem"; /* наш отдельный конкретный герой */
 import Spinner from '../spinner/Spinner'; /* спинер */
 import { useCallback } from 'react';
@@ -44,13 +45,17 @@ const HeroesList = () => {
     const {request} = useHttp(); /* функция для запроса */
 
     useEffect(() => {
-        dispatch(heroesFetching()); /* 'HEROES_FETCHING' */
-        request("http://localhost:3001/heroes")
-            .then(data => dispatch(heroesFetched(data))) /* actions */
-            .catch(() => dispatch(heroesFetchingError()))
-
-        // eslint-disable-next-line
+        dispatch(fetchHeroes(request)); /* главная задача Redux-Thunk передавать функцию которая будет делать что-то (это могут быть запросы не сервер, timeout а в них уже вкладываются необходимый функционал*/
     }, []);
+
+    // useEffect(() => {
+    //     dispatch(heroesFetching); /* dispatch('HEROES_FETCHING') в action попадает вот такое действие*/
+    //     request("http://localhost:3001/heroes")
+    //         .then(data => dispatch(heroesFetched(data))) /* actions */
+    //         .catch(() => dispatch(heroesFetchingError()))
+
+    //     // eslint-disable-next-line
+    // }, []);
 
     const onDelete = useCallback((id) => {  /* потому что она передается ниже по иерархии дочернем компонентам и она не будет переРендериватся постоянно */
         request(`http://localhost:3001/heroes/${id}`, "DELETE")

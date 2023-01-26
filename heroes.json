@@ -19,28 +19,10 @@
       "element": "fire"
     },
     {
-      "id": "2f14245f-d40f-48bb-931f-86f970ff59a6",
-      "name": "Факел",
-      "description": "Бить огнем",
-      "element": "fire"
-    },
-    {
-      "id": "887454ff-5fda-4216-af4e-0eb5fccbff7a",
-      "name": "Iron Man",
-      "description": "Быть железным",
+      "id": "0f9553be-80c8-4e05-9d5f-d275e08f0b09",
+      "name": "vladyslav",
+      "description": "974",
       "element": "earth"
-    },
-    {
-      "id": "6f9dece0-57c3-4cd8-b932-9e8842beceb4",
-      "name": "Черная вдова",
-      "description": "Убивать",
-      "element": "earth"
-    },
-    {
-      "id": "b3ef0f01-ccbf-4ef2-8914-f429a2e76902",
-      "name": "Акваен",
-      "description": "Как морской герой, но не он",
-      "element": "water"
     }
   ],
   "filters": [
