@@ -1,8 +1,7 @@
-import { legacy_createStore as createStore, combineReducers, compose, applyMiddleware } from 'redux';
-import ReduxThunk from 'redux-thunk'
+import { configureStore } from '@reduxjs/toolkit';
 import heroes from '../reducers/heroes';
 import filters from '../reducers/filters';
-
+// Redux_ToolKit
 const stringMiddleware = () => (next) => (action) => {
      if (typeof action === 'string') {
           return next({
@@ -12,15 +11,65 @@ const stringMiddleware = () => (next) => (action) => {
      return next(action)
 };
 
-const store = createStore(
-                    combineReducers({heroes, filters}),
-                    compose(applyMiddleware(ReduxThunk, stringMiddleware),
-                         window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
-                    );
+const store = configureStore({
+     reducer: {heroes, filters}, /* наши редюсеры */
+     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(stringMiddleware), /* getDefaultMiddleware - вклчючаем все middleware и так же добавляем наш applyMiddleware типа он*/
+     devTools: process.env.NODE_ENV !== 'production', /* зависит от режима разработки (продакшен или build) */
+
+})
 
 export default store;
 
 
+// Проблемы:
+// 1.Очень много повторения кода при создание reducer и actionCreator (хотелось бы разбивать на куски)
+// 2.Во вторых хотелось бы намного удобнее создавать store (особенно смущает конструкция по включению Middleware и расширения для браузера)
+// 3.Когда у нас с вами будет очень вложенные структруы которые лежат внутри store будет не очень легко(приятно) соблюдать иммутабельность и что-то менять внутри
+// например: Если бы каждый обьект героя содержал поля которые были бы тоже обьектами и вот где-то внутри таких полей нам бы приходилось поменять какуе-то характеристику (например у героя какие либо предметы и их количетсво и мы при помощи админ панели меняли бы это (и для соблюдения иммутабельности было бы сложно))
+
+// Функция configureStore - предназначена для того чтобы удобно и автоматически комбинировать reducer, подключать дополнительный функционал под названием Middleware или enhancer и автоматически включать devTools без той страшной строки
+
+// Другие Middleware с документации:
+// 1)Serializability Middleware - Для того чтобы проверять, что у нас в store нету данных которые не должны быть там(символы, промисы, функции) список найти ниже в документации можно что может и не может включатся в store
+// 2)Immutability Middleware - для обнурежения иммутацый которые могут возникнуть в нашем store 
+// 3)Redux-Thunk Middleware - включен в редакс по умолчнаию (мы знаем для чего он)
+
+// preloadedState - является опциональным параметром задающим начальное состояние нашего хранилища 
+// enchancer - все просто должны передать массив с этими свойствами   enhancers?: StoreEnhancer[]
+
+
+
+
+
+
+
+
+
+
+// example 2
+
+
+// import { legacy_createStore as createStore, combineReducers, compose, applyMiddleware } from 'redux';
+// import ReduxThunk from 'redux-thunk'
+// import heroes from '../reducers/heroes';
+// import filters from '../reducers/filters';
+// // Redux_Thunk
+// const stringMiddleware = () => (next) => (action) => {
+//      if (typeof action === 'string') {
+//           return next({
+//                type: action
+//           })
+//      }
+//      return next(action)
+// };
+
+// const store = createStore(
+//                     combineReducers({heroes, filters}),
+//                     compose(applyMiddleware(ReduxThunk, stringMiddleware),
+//                          window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+//                     );
+
+// export default store;
 
 
 
@@ -37,19 +86,7 @@ export default store;
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+// example 1
 
 // // принимает (store {dispatch() та getState()}) возвращает другую функцию которая подхватывает метод (dispatch) =>  а dispatch возвращает как аругмент (action) который возвращается в dispatch с измененным функционалом
 // const stringMiddleware = () => (next) => (action) => {
