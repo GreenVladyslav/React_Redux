@@ -43,11 +43,13 @@ export const heroesFetched = createAction('HEROES_FETCHED'); /* часть с pa
 //     }
 // }
 
-export const heroesFetchingError = () => {
-    return {
-        type: 'HEROES_FETCHING_ERROR'
-    }
-}
+export const heroesFetchingError = createAction('HEROES_FETCHING_ERROR');
+
+// export const heroesFetchingError = () => {
+//     return {
+//         type: 'HEROES_FETCHING_ERROR'
+//     }
+// }
 
 export const filtersFetching = () => {
     return {
@@ -84,19 +86,23 @@ export const activeFilterChanged = (filter) => {
 //     }, 1000);
 // }
 
-export const heroCreated = (hero) => {
-    return {
-        type: 'HERO_CREATED',
-        payload: hero
-    }
-}
+export const heroCreated = createAction('HERO_CREATED');
 
-export const heroDeleted = (id) => {
-    return {
-        type: 'HERO_DELETED',
-        payload: id
-    }
-}
+// export const heroCreated = (hero) => {
+//     return {
+//         type: 'HERO_CREATED',
+//         payload: hero
+//     }
+// }
+
+export const heroDeleted = createAction('HERO_DELETED'); /* payload приходит автоматически не забывай */
+
+// export const heroDeleted = (id) => {
+//     return {
+//         type: 'HERO_DELETED',
+//         payload: id
+//     }
+// }
 
 
 
