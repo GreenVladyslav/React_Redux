@@ -11,12 +11,13 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import classNames from "classnames";
 
-import { fetchFilters, activeFilterChanged } from "../../actions";
+import { fetchFilters } from "../../actions"; /* activeFilterChanged */
+import { filtersChanged } from "./filtersSlice";
 import Spinner from "../spinner/Spinner";
 
 const HeroesFilters = () => {
 
-    const { filters, filterLoadingStatus, activeFilter} = useSelector(state => state.filters);
+    const { filters, filtersLoadingStatus, activeFilter} = useSelector(state => state.filters);
     const dispatch = useDispatch();
     const {request} = useHttp();
 
@@ -24,9 +25,9 @@ const HeroesFilters = () => {
         dispatch(fetchFilters(request));
     }, []);
 
-    if (filterLoadingStatus === 'loading') {
+    if (filtersLoadingStatus === 'loading') {
         return <Spinner/>
-    } else if (filterLoadingStatus === 'error') {
+    } else if (filtersLoadingStatus === 'error') {
         return <h5 className="text-center mt-5">Ошибка загрузки</h5>
     }
 
@@ -45,7 +46,7 @@ const HeroesFilters = () => {
                         key={name}
                         id={name}
                         className={btnClass}
-                        onClick={() => dispatch(activeFilterChanged(name))}
+                        onClick={() => dispatch(filtersChanged(name))}
                         >{label}</button>
         })
     }

@@ -1,8 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
-import heroes from '../reducers/heroes';
-import filters from '../reducers/filters';
+// import heroes from '../reducers/heroes';  Раньше
+import heroes from '../components/heroesList/heroesSlice';
+// import filters from '../reducers/filters';
+import filters from '../components/heroesFilters/filtersSlice';
+
 // Redux_ToolKit
-const stringMiddleware = () => (next) => (action) => {
+const stringMiddleware = () => (next) => (action) => {   /* stringMiddleware - если используем createSlice - то эта функция встроена и ее можно убрать */
      if (typeof action === 'string') {
           return next({
                type: action

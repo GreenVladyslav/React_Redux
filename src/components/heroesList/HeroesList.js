@@ -2,9 +2,10 @@ import { useHttp } from '../../hooks/http.hook'; /* чтобы делать за
 import { useEffect } from 'react'; /* чтобы делать запрос в правильное время */
 import { useDispatch, useSelector } from 'react-redux'; /* два хука редакса */
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import { createSelector } from 'reselect';
+import { createSelector } from 'reselect';  /* можно импортировать с @reduxjs/toolkit */
 
-import { fetchHeroes, heroDeleted } from '../../actions'; /* экшины */
+import { fetchHeroes } from '../../actions'; /* экшины убираем heroDeleted так как экспортируем теперь из другого файла */
+import { heroDeleted } from './heroesSlice';
 // import { heroesFetching, heroesFetched, heroesFetchingError, heroDeleted } from '../../actions'; /* экшины */
 import HeroesListItem from "../heroesListItem/HeroesListItem"; /* наш отдельный конкретный герой */
 import Spinner from '../spinner/Spinner'; /* спинер */

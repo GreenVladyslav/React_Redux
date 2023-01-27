@@ -1,3 +1,5 @@
+// Можно удалить так как теперь есть heroesSlice.js
+
 import { createReducer } from "@reduxjs/toolkit"
 
 import {
@@ -70,6 +72,8 @@ const heroes = createReducer(initialState, {
 
 
 
+
+// 1 example
 
 // const heroes = (state = initialState, action) => {
 //     switch (action.type) {
