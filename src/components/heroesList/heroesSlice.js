@@ -1,28 +1,52 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { useHttp } from '../../hooks/http.hook'; /* чтобы делать запрос */
 
 const initialState = {
     heroes: [],
     heroesLoadingStatus: 'idle',
 }
 
+// Внутри thunkAPI есть много параметров смори документацию ( это если надо что-то вытащить от туда (dispatch, getState, exta, requestID, signal, throw))
+// Это все нам редко пригодися поэтому функцию payloadCreator вызываем без аругментов
+// вместо --RETURN-- request("http://localhost:3001/heroes") можно написать async await
+// createAsyncThunk - Вот эта команда на самом деле возвращает не один actionCreator, а аж три actionCreator -а которые можно использовать для работы с асинхронными операциями pending, fulfilled, rejected
+// Теперь эти три команды нужно обрабоать:
+// 1.panding - когда наш зарос (или что-то асинхронное) только формируется ( только отправляется)
+// 2.fulfilled - когда наш promise или запрос или какая-то другая асинхронная операция выполнилась успешна 
+// 3.rejected - какое действие будет выполнено если произошла ошибка
+
+export const fetchHeroes = createAsyncThunk(  /* отвечает за загрузку данных и отслеживанеи их состояния */
+    'heroes/fetchHeroes', /* имя среза/тип действия */
+    async () => {               /* функция которая должна вернуть асинхронный код (промис)*/
+                          /* аргументы: 1.то что мы передаем 2.API самого thunkAPI*/
+        const {request} = useHttp(); /* запускает наш собственый хук который работает с сервером и отдает нам функцию по работе с сервером для того чтобы мы могли делать зпаросы*/
+        return await request("http://localhost:3001/heroes") /* делаем запрос по нашему адресу */
+    }  
+
+);
+
 const heroesSlice = createSlice({ /* создание нашего нового обьекта */
     name: 'heroes',               /* state.heroes */
     initialState,
     reducers: {
-        heroesFetching: state => {state.heroesLoadingStatus = 'loading'},
-        heroesFetched: (state, action) => {
-            state.heroesLoadingStatus = 'idle';
-            state.heroes = action.payload;
-            },
-        heroesFetchingError: state => {
-                    state.heroesLoadingStatus = 'error';
-                    },
         heroCreated: (state, action) => {
                     state.heroes.push(action.payload);
                     },
         heroDeleted: (state, action) => {
                     state.heroes = state.heroes.filter(item => item.id !== action.payload);
                     }
+        },
+        extraReducers: (builder) => { /* тут у нас обработка запросан а сервер через createAsyncThunk */ /* отвечает за загрузку данных и отслеживанеи их состояния */
+            builder
+                .addCase(fetchHeroes.pending, state => {state.heroesLoadingStatus = 'loading'})
+                .addCase(fetchHeroes.fulfilled, (state, action) => {
+                    state.heroesLoadingStatus = 'idle';
+                    state.heroes = action.payload;
+                })
+                .addCase(fetchHeroes.rejected, state => {
+                    state.heroesLoadingStatus = 'error';
+                })
+                .addDefaultCase(() => {})
         }
 });
 

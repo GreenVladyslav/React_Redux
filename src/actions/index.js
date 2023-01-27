@@ -1,13 +1,13 @@
-import { heroesFetching, heroesFetched, heroesFetchingError } from '../components/heroesList/heroesSlice';
+// import { heroesFetching, heroesFetched, heroesFetchingError } from '../components/heroesList/heroesSlice';
 import { filtersFetching, filtersFetched, filtersFetchingError } from '../components/heroesFilters/filtersSlice';
 
 /* request - хранится в отдельном хуке  */
-export const fetchHeroes = (request) => (dispatch) => {  /* (dispatch) - будем возвращать новую функию которая автоматически будет получать dispatch */
-    dispatch(heroesFetching());                             /* ( и дальше будем возвращать вот такой actionCreator ввиде функции) */
-    request("http://localhost:3001/heroes")
-        .then(data => dispatch(heroesFetched(data))) /* actions передаем в reducer (payload: heroes) */
-        .catch(() => dispatch(heroesFetchingError()))
-}
+// export const fetchHeroes = (request) => (dispatch) => {  /* (dispatch) - будем возвращать новую функию которая автоматически будет получать dispatch */
+//     dispatch(heroesFetching());                             /* ( и дальше будем возвращать вот такой actionCreator ввиде функции) */
+//     request("http://localhost:3001/heroes")
+//         .then(data => dispatch(heroesFetched(data))) /* actions передаем в reducer (payload: heroes) */
+//         .catch(() => dispatch(heroesFetchingError()))
+// }
 
 export const fetchFilters = (request) => (dispatch) => {
     dispatch(filtersFetching());
@@ -17,6 +17,14 @@ export const fetchFilters = (request) => (dispatch) => {
 }
 
 
+
+
+
+
+
+
+// Что мы можем решить при помощи createAsyncThunk(): Занимается тем что позваляет вам создавать стандартый ReduxAsync ActionCreator с дополнительным свойставми для работы с промисами
+// 1)
 
 
 

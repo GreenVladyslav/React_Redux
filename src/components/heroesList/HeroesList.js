@@ -2,10 +2,10 @@ import { useHttp } from '../../hooks/http.hook'; /* чтобы делать за
 import { useEffect } from 'react'; /* чтобы делать запрос в правильное время */
 import { useDispatch, useSelector } from 'react-redux'; /* два хука редакса */
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import { createSelector } from 'reselect';  /* можно импортировать с @reduxjs/toolkit */
+import { createSelector } from '@reduxjs/toolkit';  /* можно импортировать с reselect */
 
-import { fetchHeroes } from '../../actions'; /* экшины убираем heroDeleted так как экспортируем теперь из другого файла */
-import { heroDeleted } from './heroesSlice';
+// import { fetchHeroes } from '../../actions'; /* экшины убираем heroDeleted так как экспортируем теперь из другого файла */
+import { heroDeleted, fetchHeroes } from './heroesSlice';
 // import { heroesFetching, heroesFetched, heroesFetchingError, heroDeleted } from '../../actions'; /* экшины */
 import HeroesListItem from "../heroesListItem/HeroesListItem"; /* наш отдельный конкретный герой */
 import Spinner from '../spinner/Spinner'; /* спинер */
@@ -46,7 +46,7 @@ const HeroesList = () => {
     const {request} = useHttp(); /* функция для запроса */
 
     useEffect(() => {
-        dispatch(fetchHeroes(request)); /* главная задача Redux-Thunk передавать функцию которая будет делать что-то (это могут быть запросы не сервер, timeout а в них уже вкладываются необходимый функционал*/
+        dispatch(fetchHeroes()); /* главная задача Redux-Thunk передавать функцию которая будет делать что-то (это могут быть запросы не сервер, timeout а в них уже вкладываются необходимый функционал*/
     }, []);
 
     // useEffect(() => {
