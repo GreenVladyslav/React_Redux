@@ -6,23 +6,25 @@
 // Изменять json-файл для удобства МОЖНО!
 // Представьте, что вы попросили бэкенд-разработчика об этом
 
-import { useHttp } from "../../hooks/http.hook";
+// import { useHttp } from "../../hooks/http.hook";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import classNames from "classnames";
+import store from '../../store';
 
-import { fetchFilters } from "../../actions"; /* activeFilterChanged */
-import { filtersChanged } from "./filtersSlice";
+// import { fetchFilters } from "../../actions"; /* activeFilterChanged */
+import { filtersChanged, fetchFilters, selectAll } from "./filtersSlice";
 import Spinner from "../spinner/Spinner";
 
 const HeroesFilters = () => {
 
-    const { filters, filtersLoadingStatus, activeFilter} = useSelector(state => state.filters);
+    const { filtersLoadingStatus, activeFilter} = useSelector(state => state.filters);
+    const filters = selectAll(store.getState());
     const dispatch = useDispatch();
-    const {request} = useHttp();
+    // const {request} = useHttp();
 
     useEffect(() => {
-        dispatch(fetchFilters(request));
+        dispatch(fetchFilters());
     }, []);
 
     if (filtersLoadingStatus === 'loading') {

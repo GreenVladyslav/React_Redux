@@ -1,5 +1,5 @@
 // import { heroesFetching, heroesFetched, heroesFetchingError } from '../components/heroesList/heroesSlice';
-import { filtersFetching, filtersFetched, filtersFetchingError } from '../components/heroesFilters/filtersSlice';
+// import { filtersFetching, filtersFetched, filtersFetchingError } from '../components/heroesFilters/filtersSlice';
 
 /* request - хранится в отдельном хуке  */
 // export const fetchHeroes = (request) => (dispatch) => {  /* (dispatch) - будем возвращать новую функию которая автоматически будет получать dispatch */
@@ -9,12 +9,12 @@ import { filtersFetching, filtersFetched, filtersFetchingError } from '../compon
 //         .catch(() => dispatch(heroesFetchingError()))
 // }
 
-export const fetchFilters = (request) => (dispatch) => {
-    dispatch(filtersFetching());
-    request("http://localhost:3001/filters/")
-        .then(data => dispatch(filtersFetched(data)))
-        .catch(() => dispatch(filtersFetchingError()));
-}
+// export const fetchFilters = (request) => (dispatch) => {
+//     dispatch(filtersFetching());
+//     request("http://localhost:3001/filters/")
+//         .then(data => dispatch(filtersFetched(data)))
+//         .catch(() => dispatch(filtersFetchingError()));
+// }
 
 
 
